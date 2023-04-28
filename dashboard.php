@@ -1,5 +1,4 @@
 <?php require_once 'includes/header.php'; ?>
-
 <?php
 
 $sql = "SELECT * FROM product WHERE status = 1";
@@ -103,10 +102,72 @@ $connect->close();
 
 
 </div> <!--/row-->
+<div class="row">
+	<div class="col-md-6">
+		<div id="chart-container">
+			<canvas id="graphCanvas"></canvas>
+		</div>
+	</div>
+</div>
 
+<script src="assests/plugins/chart/Chart.min.js"></script>
 <!-- fullCalendar 2.2.5 -->
 <script src="assests/plugins/moment/moment.min.js"></script>
 <script src="assests/plugins/fullcalendar/fullcalendar.min.js"></script>
+
+<script>
+        $(document).ready(function () {
+            showGraph();
+        });
+
+
+        function showGraph()
+        {
+            {
+                $.post("php_action/getGraphData.php",
+                function (data)
+                {
+                    console.log(data);
+                     var name = [];
+                    var Quantity = [];
+
+                    for (var i in data) {
+                        name.push(data[i].product_name);
+                        Quantity.push(data[i].Quantity);
+                    }
+
+                    var chartdata = {
+                        labels: name,
+                        datasets: [
+                            {
+                                label: 'Stocks',
+                                backgroundColor: '#000000',
+                                borderColor: '#46d5f1',
+                                hoverBackgroundColor: '#CCCCCC',
+                                hoverBorderColor: '#666666',
+                                data: Quantity
+                            }
+                        ]
+                    };
+
+                    var graphTarget = $("#graphCanvas");
+					const config = {
+						type: 'bar',
+						data: chartdata,
+						options: {
+							scales: {
+							y: {
+								beginAtZero: true
+							}
+							}
+						},
+						};
+					var barGraph = new Chart(graphTarget,config);
+                });
+            }
+        }
+        </script>
+
 
 
 <script type="text/javascript">

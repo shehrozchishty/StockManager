@@ -184,7 +184,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`) VALUES
-(1, 'admin', '5f4dcc3b5aa765d61d8327deb882cf99', '');
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '');
 
 --
 -- Indexes for dumped tables
